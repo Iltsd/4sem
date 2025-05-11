@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экосистема</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Экосистема</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/add_animal">Добавить животное</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/add_plant">Добавить растение</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/food_chain">Пищевая цепочка</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/biodiversity">Биоразнообразие</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="mt-4">Экосистема</h1>
+        {% if message %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header">Животные</div>
+            <div class="card-body">
+                {% if animals %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Вид</th>
+                                <th>Тип</th>
+                                <th>Энергия</th>
+                                <th>Здоровье</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for animal in animals %}
+                                <tr>
+                                    <td>{{ animal.name }}</td>
+                                    <td>{{ animal.species }}</td>
+                                    <td>{% if animal.__class__.__name__ == "Predator" %}Хищник{% else %}Жертва{% endif %}</td>
+                                    <td>{{ animal.energy }}</td>
+                                    <td>{{ animal.health }}</td>
+                                    <td>
+                                        <span class="{% if animal.is_alive() %}status-alive{% else %}status-dead{% endif %}">
+                                            {% if animal.is_alive() %}Жив{% else %}Мёртв{% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="/remove_animal/{{ animal.name }}" class="btn btn-danger btn-sm">Удалить</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Нет животных в экосистеме.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">Растения</div>
+            <div class="card-body">
+                {% if plants %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Вид</th>
+                                <th>Съедобность</th>
+                                <th>Здоровье</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for plant in plants %}
+                                <tr>
+                                    <td>{{ plant.name }}</td>
+                                    <td>{{ plant.species }}</td>
+                                    <td>{% if plant.is_edible %}Съедобное{% else %}Несъедобное{% endif %}</td>
+                                    <td>{{ plant.health }}</td>
+                                    <td>
+                                        <span class="{% if plant.health > 0 %}status-alive{% else %}status-dead{% endif %}">
+                                            {% if plant.health > 0 %}Живо{% else %}Мёртво{% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="/remove_plant/{{ plant.name }}" class="btn btn-danger btn-sm">Удалить</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Нет растений в экосистеме.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="/interact" class="btn btn-primary">Запустить взаимодействие</a>
+            <a href="/reproduce" class="btn btn-primary">Запустить размножение</a>
+            <a href="/consume" class="btn btn-primary">Запустить потребление ресурсов</a>
+            <a href="/check_balance" class="btn btn-primary">Проверить баланс</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

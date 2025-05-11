@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить животное</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Экосистема</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/add_animal">Добавить животное</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/add_plant">Добавить растение</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/food_chain">Пищевая цепочка</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/biodiversity">Биоразнообразие</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="mt-4">Добавить животное</h1>
+        {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="/add_animal">
+                    <div class="form-group">
+                        <label for="name">Имя:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="species">Вид:</label>
+                        <input type="text" class="form-control" id="species" name="species" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Тип:</label>
+                        <select class="form-control" id="type" name="type" required>
+                            <option value="predator">Хищник</option>
+                            <option value="victim">Жертва</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Добавить</button>
+                </form>
+            </div>
+        </div>
+        <a href="/" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
